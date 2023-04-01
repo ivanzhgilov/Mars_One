@@ -1,0 +1,7 @@
+table {
+  table-layout: fixed;
+}
+td, th {
+  width: 320px;
+  border: 5px solid #9c9c9c;
+}

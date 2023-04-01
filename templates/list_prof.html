@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Список проффессий</h2>
+    {% if display_methodist == "ol" %}
+        <ol>
+            {% for prof in list_professions %}
+                <li>{{ prof }}</li>
+            {% endfor %}
+        </ol>
+    {% elif display_methodist == "ul" %}
+        <ul>
+            {% for prof in list_professions %}
+                <li>{{ prof }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div>Передан неверный параметр для вывода списка, используйте параметры ol или ul</div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/table_style.css')}}" />
+    {% if sex == "male" %}
+        {% if age < 21 %}
+            {% set color = "#6b58e8" %}
+        {% else %}
+            {% set color = "#260ccc" %}
+        {% endif %}
+    {% else %}
+        {% if age < 21 %}
+            {% set color = "#e55792" %}
+        {% else %}
+            {% set color = "#de1065" %}
+        {% endif %}
+    {% endif %}
+    <table>
+        <caption>
+            Оформление каюты
+        </caption>
+        <tr>
+            <td>Цвет стен</td>
+            <td>Эмблема</td>
+        </tr>
+        <tr>
+            <td bgcolor="{{ color }}"></td>
+            <td>
+                {% if age < 21 %}
+                    <img src="{{ url_for('static', filename='img/martian_child.png') }}" alt="здесь должна была быть картинка, но не нашлась">
+                {% else %}
+                    <img src="{{ url_for('static', filename='img/adult_martian.png') }}" alt="здесь должна была быть картинка, но не нашлась">
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+{% endblock %}

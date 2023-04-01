@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>{{ professional_orientation }}!</h2>
+    {% if professional_orientation == "Инженерные тренажеры" %}
+        <img src="{{ url_for('static', filename='img/ship_diagram_engineering_simulators.png') }}"
+                            alt="здесь должна была быть картинка, но не нашлась">
+    {% else %}
+        <img src="{{ url_for('static', filename='img/ship_diagram_scientific_simulators.png') }}"
+                            alt="здесь должна была быть картинка, но не нашлась">
+    {% endif %}
+{% endblock %}
