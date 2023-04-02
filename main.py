@@ -78,13 +78,13 @@ def answer():
     return render_template('auto_answer.html', **values)
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/emergency_access', methods=['GET', 'POST'])
 def login():
     form = EmergencyAccess()
     access = False
     if form.validate_on_submit():
         access = True
-    return render_template('login.html', title='Авторизация', form=form, access=access)
+    return render_template('emergency_access.html', title='Авторизация', form=form, access=access)
 
 
 @app.route('/distribution')
