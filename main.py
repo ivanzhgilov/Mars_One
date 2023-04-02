@@ -6,7 +6,7 @@ from sqlalchemy import select
 from data.user import User
 from data.jobs import Jobs
 from data import db_session
-from forms.login import RegisterForm
+from forms.register import RegisterForm
 from forms.emergency_access import EmergencyAccess
 
 app = Flask(__name__)
@@ -96,6 +96,38 @@ def distribution():
 @app.route('/table/<sex>/<age>')
 def table(sex, age):
     return render_template('table.html', age=int(age), sex=sex)
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        if form.password.data != form.password_again.data:
+            return render_template('register.html', title='Регистрация',
+                                   form=form,
+                                   message="Пароли не совпадают")
+        db_sess = db_session.create_session()
+        if db_sess.query(User).filter(User.email == form.email.data).first():
+            return render_template('register.html', title='Регистрация',
+                                   form=form,
+                                   message="одна почта - один человек")
+        if db_sess.query(User).filter(User.surname == form.surname.data, User.name == form.name.data).first():
+            return render_template('register.html', title='Регистрация', form=form,
+                                   message="ну ладно одинаковые имена, ладно фамилии, но по отдельности")
+        user = User(
+            name=form.name.data,
+            email=form.email.data,
+            surname=form.surname.data,
+            age=form.age.data,
+            position=form.position.data,
+            speciality=form.speciality.data,
+            address=form.address.data
+        )
+        user.set_password(form.password.data)
+        db_sess.add(user)
+        db_sess.commit()
+        return redirect('/')
+    return render_template('register.html', title='Регистрация', form=form)
 
 
 if __name__ == '__main__':
