@@ -1,0 +1,13 @@
+.block-text {
+    text-align: center;
+}
+table {
+    border: 1px solid #000;
+    margin: auto;
+}
+.table-text-middle {
+    align: middle;
+}
+td {
+    valign: middle;
+}

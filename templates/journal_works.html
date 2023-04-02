@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/journal_works_style.css')}}" />
+    <h3 class="block-text">Works log</h3>
+    {% for job in jobs %}
+    <table>
+        <caption>Action # {{ job.id }}</caption>
+        <tr bgcolor="#b8b8b8">
+            <td width="400px">Title of activity</td>
+            <td class="block-text" width="125px">Team leader</td>
+            <td class="block-text" width="125px">Duration</td>
+            <td class="block-text" width="225px">List of collaborators</td>
+            <td class="block-text" width="50px">is finished</td>
+        </tr>
+        <tr bgcolor="#80f2f2">
+            <td width="400px">{{ job.job }}</td>
+            <td class="block-text" width="125px">{{ team_leaders[loop.index0] }}</td>
+            <td class="block-text" width="125px">{{ job.work_size }}</td>
+            <td class="block-text" width="225px">{{ job.collaborators }}</td>
+            <td class="block-text" width="50px">{% if job.is_finished == True %} is finished {% else %} is not finished {% endif %}</td>
+        </tr>
+    </table>
+    {% endfor %}
+{% endblock %}

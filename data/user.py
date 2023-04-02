@@ -1,5 +1,5 @@
 import sqlalchemy
-
+from sqlalchemy import orm
 from data.db_session import SqlAlchemyBase
 
 
@@ -14,5 +14,6 @@ class User(SqlAlchemyBase):
     speciality = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     address = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     email = sqlalchemy.Column(sqlalchemy.String, nullable=True, unique=True)
-    hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+    hashed_password = sqlalchemy.Column(sqlalchemy.String)
     modified_date = sqlalchemy.Column(sqlalchemy.DateTime)
+    team_leader_job = orm.relationship('Jobs')

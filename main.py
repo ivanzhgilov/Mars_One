@@ -3,6 +3,8 @@ from flask_login import login_user, LoginManager, logout_user, login_required, c
 from flask_restful import Api
 from sqlalchemy import select
 
+from data.user import User
+from data.jobs import Jobs
 from data import db_session
 from forms.login import RegisterForm
 from forms.emergency_access import EmergencyAccess
@@ -10,6 +12,11 @@ from forms.emergency_access import EmergencyAccess
 app = Flask(__name__)
 api = Api(app)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+
+
+def main():
+    db_session.global_init('db/blogs.sqlite')
+    app.run(host='0.0.0.0', port=8000, debug=True)
 
 
 @app.errorhandler(404)
@@ -25,8 +32,15 @@ def bad_request(_):
 @app.route('/')
 @app.route('/index')
 def index():
-    title = "Загатовка"
-    return render_template('base.html', title=title)
+    title = "works"
+    db_sess = db_session.create_session()
+    jobs = db_sess.query(Jobs)
+    team_leaders = []
+    for job in jobs:
+        leader = db_sess.query(User).filter(User.id == job.team_leader)[0]
+        leader_name = f"{leader.surname} {leader.name}"
+        team_leaders.append(leader_name)
+    return render_template('journal_works.html', title=title, jobs=jobs, team_leaders=team_leaders)
 
 
 @app.route('/training/<prof>')
@@ -82,12 +96,6 @@ def distribution():
 @app.route('/table/<sex>/<age>')
 def table(sex, age):
     return render_template('table.html', age=int(age), sex=sex)
-
-
-def main():
-    db_session.global_init('db/blogs.sqlite')
-    db_sess = db_session.create_session()
-    app.run(host='0.0.0.0', port=8000, debug=True)
 
 
 if __name__ == '__main__':
